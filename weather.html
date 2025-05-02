@@ -265,11 +265,27 @@
                     let forecastAPI = await getForecastAPI(lat, lon);
                     let forecasts = await getForecastData(forecastAPI);
                     displayForecast(forecasts);
+
+                    //for logging
+                    const forecastSummary = forecasts.map(day =>
+                        `${day.name} - ${day.shortForecast} - ${day.temperature}°F`
+                    ).join(', ');
+
+                    fetch('http://localhost:3000/log', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            zip: zipCode,
+                            lat: lat,
+                            lon: lon,
+                            forecast: forecastSummary
+                        })
+                    }).catch(err => console.error("logging error:", err));
+
                 } catch (error) {
                     console.error("Error:", error);
                     resultDiv.innerHTML = "<p>Error: no data found </p>";
                 }
-
             }
 
 
