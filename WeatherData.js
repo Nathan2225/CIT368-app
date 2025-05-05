@@ -46,6 +46,7 @@ function encode(str){
             if (data.length === 0) throw new Error("Invalid ZIP code");
             return {lat:data[0].lat, lon: data[0].lon };
         }catch (error) {
+            console.error(error);
             throw new Error("Error: coordinates not found")
         }
     }
@@ -61,6 +62,7 @@ function encode(str){
             let data = await response.json();
             return data.properties.forecast;
         }catch (error) {
+            console.error(error);
             throw new Error("Error: API not found");
         }
         
@@ -78,6 +80,7 @@ function encode(str){
             let data = await response.json();
             return data.properties.periods.slice(0, 5);
         } catch (error) {
+            console.error(error);
             throw new Error("Error: forecast data not found")
         }
     }
